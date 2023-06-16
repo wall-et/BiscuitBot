@@ -10,6 +10,8 @@ from knocknock import knock_joke
 
 intents = discord.Intents.default()  # Create an instance of the Intents class
 intents.typing = False  # Disable the typing event (optional)
+intents.messages = True
+intents.message_content = True
 
 bot = commands.Bot(command_prefix='!', intents=intents)  # Pass the intents argument
 
@@ -28,14 +30,17 @@ async def on_ready():
 
 @bot.event
 async def on_message(message):
+    # print(message)
+    # print(message.content)
     if message.author.bot:
-        return  # Ignore messages from bots
+        return
 
-    await knock_joke(message, bot)
+    response = await knock_joke(message, bot)
+
+    if response:
+        await message.channel.send(response)
 
     await bot.process_commands(message)
-
-
 
 # Run the bot
 with open("./secrets") as f:
