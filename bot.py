@@ -7,8 +7,11 @@ import asyncio
 from weekly_alarm import schedule_alarm
 from knocknock import knock_joke
 
-# Create a new bot instance
-bot = commands.Bot(command_prefix='!')
+
+intents = discord.Intents.default()  # Create an instance of the Intents class
+intents.typing = False  # Disable the typing event (optional)
+
+bot = commands.Bot(command_prefix='!', intents=intents)  # Pass the intents argument
 
 # Command: !hello
 @bot.command()
