@@ -42,6 +42,16 @@ async def on_message(message):
 
     await bot.process_commands(message)
 
+# Command: !set_alarm
+@bot.command()
+async def set_alarm(ctx):
+    duration = ctx.content.split(' ')[1]
+    alarm_time = datetime.now() + datetime.timedelta(minus=int(duration))
+    alarm_time_str = alarm_time.strftime('%d-%m-%Y %H:%M:%S')
+    await ctx.send(f'Alarm set for {alarm_time_str}')
+    await asyncio.sleep(int(duration) * 60)
+    await ctx.send(f'@{ctx.author.mention} Wake up! It\'s time!')
+
 # Run the bot
 with open("./secrets") as f:
     _token = f.read().strip()
